@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Alert, Box, Button, Card, CardContent, Grid, Stack, TextField, Typography, Table, TableHead, TableRow, TableCell, TableBody, Dialog, DialogTitle, DialogContent, DialogActions, Link as MLink } from '@mui/material';
+import { API_URL } from '../config.js';
 
 export default function ReviewerDashboard() {
   const [pending, setPending] = useState([]);
@@ -10,7 +11,7 @@ export default function ReviewerDashboard() {
   const [submitting, setSubmitting] = useState(false);
 
   const fetchPending = async () => {
-    const res = await axios.get('/api/ecg/pending');
+    const res = await axios.get('/ecg/pending');
     setPending(res.data);
   };
 
@@ -32,7 +33,7 @@ export default function ReviewerDashboard() {
     setSubmitting(true);
     setError('');
     try {
-      await axios.post(`/api/ecg/${selected._id}/describe`, { description });
+      await axios.post(`/ecg/${selected._id}/describe`, { description });
       setSelected(null);
       setDescription('');
       await fetchPending();
@@ -63,7 +64,7 @@ export default function ReviewerDashboard() {
                 <TableRow key={item._id}>
                   <TableCell>{new Date(item.createdAt).toLocaleString()}</TableCell>
                   <TableCell>
-                    <MLink href={item.filePath} target="_blank" rel="noreferrer">View</MLink>
+                    <MLink href={`${API_URL}${item.filePath}`} target="_blank" rel="noreferrer">View</MLink>
                   </TableCell>
                   <TableCell>{item.status}</TableCell>
                   <TableCell>

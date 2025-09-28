@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Alert, Box, Button, Card, CardContent, LinearProgress, Stack, TextField, Typography, Table, TableHead, TableRow, TableCell, TableBody, Link as MLink } from '@mui/material';
+import { API_URL } from '../config.js';
 
 export default function SenderDashboard() {
   const [file, setFile] = useState(null);
@@ -10,7 +11,7 @@ export default function SenderDashboard() {
   const [list, setList] = useState([]);
 
   const fetchMine = async () => {
-    const res = await axios.get('/api/ecg/mine');
+    const res = await axios.get('/ecg/mine');
     setList(res.data);
   };
 
@@ -27,7 +28,7 @@ export default function SenderDashboard() {
     try {
       const form = new FormData();
       form.append('file', file);
-      await axios.post('/api/ecg/upload', form, { headers: { 'Content-Type': 'multipart/form-data' } });
+      await axios.post('/ecg/upload', form, { headers: { 'Content-Type': 'multipart/form-data' } });
       setSuccess('Upload successful');
       setFile(null);
       await fetchMine();
@@ -88,7 +89,7 @@ export default function SenderDashboard() {
                 <TableRow key={item._id}>
                   <TableCell>{new Date(item.createdAt).toLocaleString()}</TableCell>
                   <TableCell>
-                    <MLink href={item.filePath} target="_blank" rel="noreferrer">View</MLink>
+                    <MLink href={`${API_URL}${item.filePath}`} target="_blank" rel="noreferrer">View</MLink>
                   </TableCell>
                   <TableCell>{item.status}</TableCell>
                   <TableCell>
