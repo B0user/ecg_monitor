@@ -8,11 +8,11 @@ export default defineConfig({
     port: 3099,
     proxy: {
       '/api': {
-        target: 'http://localhost:2099',
+        target: 'https://api.ecg-panel.demo.medcore.kz',
         changeOrigin: true,
       },
       '/uploads': {
-        target: 'http://localhost:2099',
+        target: 'https://api.ecg-panel.demo.medcore.kz',
         changeOrigin: true,
       },
     },
