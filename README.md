@@ -46,8 +46,9 @@ Seeded users:
 The Vite dev server proxies `/api` and `/uploads` to the backend.
 
 ## Features
-- Sender can upload ECG (.pdf/.png/.jpg), view status, and download description when ready.
+- Sender can upload ECG (.pdf/.png/.jpg/.dcm), view status, and download description when ready.
 - Reviewer sees pending ECGs, opens one, writes description, and marks as "described".
+- DICOM support: DICOM files are stored under `uploads/` and can be viewed via a simple Cornerstone-based viewer at `/viewer/:id` (reviewer only).
 
 ## Project Structure
 
@@ -69,6 +70,7 @@ frontend/
   src/
     context/
     pages/
+      DicomViewer.jsx
     App.jsx
     main.jsx
   index.html
@@ -80,3 +82,4 @@ frontend/
 - Files are stored locally in `backend/uploads/` and served via `/uploads/<filename>`.
 - JWT is required on protected routes. In the frontend, token is stored in localStorage.
 - This is an MVP; no complex reviewer assignment.
+- Seed includes 5 ECG requests (2 uploaded, 1 in_review, 2 described) and one DICOM example (`sample4.dcm`). For proper viewing, replace `backend/uploads/sample4.dcm` with a real DICOM file (any `.dcm`) before testing the viewer.

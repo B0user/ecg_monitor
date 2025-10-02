@@ -20,7 +20,8 @@ const PORT = process.env.PORT || 2099;
 // Middlewares
 app.use(cors({
   origin: [
-    "https://ecg-panel.demo.medcore.kz"
+    "https://ecg-panel.demo.medcore.kz",
+    "http://localhost:3099"
   ],
   credentials: true
 }));

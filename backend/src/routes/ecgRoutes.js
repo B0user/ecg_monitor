@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { authRequired, requireRole } from '../middleware/auth.js';
-import { uploadEcgController, listMineController, listPendingController, describeController } from '../controllers/ecgController.js';
+import { uploadEcgController, listMineController, listPendingController, describeController, getOneController } from '../controllers/ecgController.js';
 
 const router = Router();
 
@@ -27,10 +27,10 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  const allowed = ['.pdf', '.png', '.jpg', '.jpeg'];
+  const allowed = ['.pdf', '.png', '.jpg', '.jpeg', '.dcm'];
   const ext = path.extname(file.originalname).toLowerCase();
   if (allowed.includes(ext)) return cb(null, true);
-  return cb(new Error('Only .pdf, .png, .jpg, .jpeg allowed'));
+  return cb(new Error('Only .pdf, .png, .jpg, .jpeg, .dcm allowed'));
 };
 
 const upload = multer({ storage, fileFilter, limits: { fileSize: 10 * 1024 * 1024 } });
@@ -40,5 +40,6 @@ router.post('/upload', authRequired, requireRole('sender'), upload.single('file'
 router.get('/mine', authRequired, requireRole('sender'), listMineController);
 router.get('/pending', authRequired, requireRole('reviewer'), listPendingController);
 router.post('/:id/describe', authRequired, requireRole('reviewer'), describeController);
+router.get('/:id', authRequired, getOneController);
 
 export default router;

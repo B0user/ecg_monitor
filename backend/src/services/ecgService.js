@@ -1,8 +1,8 @@
 import path from 'path';
 import ECGRequest from '../models/ECGRequest.js';
 
-export const createUpload = async ({ senderId, filePath }) => {
-  return ECGRequest.create({ senderId, filePath });
+export const createUpload = async ({ senderId, filePath, fileType }) => {
+  return ECGRequest.create({ senderId, filePath, fileType });
 };
 
 export const listMine = async ({ senderId }) => {
